@@ -1,0 +1,4 @@
+ofxFlowTools
+ofxOsc
+ofxTuio
+ofxXmlSettings
