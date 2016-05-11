@@ -19,12 +19,12 @@ namespace flowTools {
     , densityWidth(1)
     , densityHeight(1)
     {
-        ofAddListener(ofEvents().mouseDragged, this, &ftxDrawCustomForces::mouseDragged);
+//        ofAddListener(ofEvents().mouseDragged, this, &ftxDrawCustomForces::mouseDragged);
     }
     
     ftxDrawCustomForces::~ftxDrawCustomForces()
     {
-        ofRemoveListener(ofEvents().mouseDragged, this, &ftxDrawCustomForces::mouseDragged);
+//        ofRemoveListener(ofEvents().mouseDragged, this, &ftxDrawCustomForces::mouseDragged);
     }
     
     void ftxDrawCustomForces::setup(int _simulationWidth, int _simulationHeight, int _densityWidth, int _densityHeight)
@@ -125,24 +125,24 @@ namespace flowTools {
     }
     
     //--------------------------------------------------------------
-    void ftxDrawCustomForces::mouseDragged( ofMouseEventArgs& mouse ) {
-        ofVec2f normalizedMouse;
-        
-        normalizedMouse.set(mouse.x / (float)ofGetWindowWidth(), mouse.y / (float)ofGetWindowHeight());
-        
-        ofVec2f velocity = normalizedMouse - lastNormalizedMouse;
-        
-        for (int i = 0; i < numDrawForces; ++i)
-        {
-            if (drawForces[i].getType() == FT_VELOCITY)
-            {
-                drawForces[i].setForce(velocity);
-            }
-            drawForces[i].applyForce(normalizedMouse);
-        }
-        lastNormalizedMouse.set(normalizedMouse);
-        
-    }
+//    void ftxDrawCustomForces::mouseDragged( ofMouseEventArgs& mouse ) {
+//        ofVec2f normalizedMouse;
+//        
+//        normalizedMouse.set(mouse.x / (float)ofGetWindowWidth(), mouse.y / (float)ofGetWindowHeight());
+//        
+//        ofVec2f velocity = normalizedMouse - lastNormalizedMouse;
+//        
+//        for (int i = 0; i < numDrawForces; ++i)
+//        {
+//            if (drawForces[i].getType() == FT_VELOCITY)
+//            {
+//                drawForces[i].setForce(velocity);
+//            }
+//            drawForces[i].applyForce(normalizedMouse);
+//        }
+//        lastNormalizedMouse.set(normalizedMouse);
+//        
+//    }
     
     //--------------------------------------------------------------
     void ftxDrawCustomForces::move( ofVec2f normalizedPosition, ofVec2f normalizedLastPosition )

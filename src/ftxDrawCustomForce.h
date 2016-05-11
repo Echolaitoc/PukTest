@@ -1,10 +1,11 @@
 //
-//  ftxCustomForce.hpp
+//  ftxCustomForce.h
 //  PukTest
 //
 //  Created by Tristan Weber on 09/05/16.
 //
 //
+#pragma once
 
 #include "ofMain.h"
 #include "ftFbo.h"
@@ -37,7 +38,7 @@ namespace flowTools {
     private:
         ofParameter<bool> doResetDrawForces;
         void resetDrawForcesListner(bool& _value) { if (_value) { reset(); }; doResetDrawForces.set(false); }
-        void mouseDragged(ofMouseEventArgs & mouse);
+//        void mouseDragged(ofMouseEventArgs & mouse);
         
         int numDrawForces;
         ftDrawForce* drawForces;

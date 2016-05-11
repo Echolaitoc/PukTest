@@ -12,17 +12,13 @@ void ofApp::setup()
     
     ofEnableSmoothing();
     
-    tuioClient.start(3333);
     
     fluidSimulation.setup(flowWidth, flowHeight, WINDOW_WIDTH, WINDOW_HEIGHT);
     fluidSimulation.addObstacle(backgroundLogo.getTexture());
     
     particleFlow.setup(flowWidth, flowHeight, WINDOW_WIDTH, WINDOW_HEIGHT);
     
-    
-    ofAddListener(tuioClient.cursorAdded,this,&ofApp::tuioAdded);
-    ofAddListener(tuioClient.cursorRemoved,this,&ofApp::tuioRemoved);
-    ofAddListener(tuioClient.cursorUpdated,this,&ofApp::tuioUpdated);
+    puks.setup();
 }
 
 //--------------------------------------------------------------
@@ -98,7 +94,7 @@ void ofApp::setupGui() {
     gui.loadFromFile("fluidSettings.xml");
     
     gui.minimizeAll();
-    toggleGuiDraw = true;
+    toggleGuiDraw = false;
     
 }
 
@@ -108,11 +104,10 @@ void ofApp::update()
     deltaTime = ofGetElapsedTimef() - lastTime;
     lastTime = ofGetElapsedTimef();
     
-    tuioClient.getMessage();
     
-    for (auto tuioPoint : tuioPoints)
+    for (auto puk : puks.getPuks())
     {
-        tuioForce.move(tuioPoint.location, tuioPoint.lastLocation);
+        tuioForce.move(puk.location, puk.lastLocation);
     }
     
     tuioForce.update(deltaTime);
@@ -178,7 +173,7 @@ void ofApp::draw()
     }
     
     if (debug) {
-        tuioClient.drawCursors();
+//        tuioClient.drawCursors();
     }
 }
 
@@ -298,49 +293,4 @@ void ofApp::drawModeSetName(int &_value) {
         case DRAW_FLUID_DENSITY:	drawName.set("Fluid Density"); break;
         case DRAW_VELDOTS:			drawName.set("VelDots"); break;
     }
-}
-
-//--------------------------------------------------------------
-
-void ofApp::tuioAdded(ofxTuioCursor &tuioCursor)
-{
-    tuioPoints.push_back(tuioContainer());
-    tuioPoints.back().sid = tuioCursor.getSessionId();
-    tuioPoints.back().location.set(tuioCursor.getX(), tuioCursor.getY());
-    tuioPoints.back().setLastLocation();
-}
-
-void ofApp::tuioUpdated(ofxTuioCursor &tuioCursor)
-{
-    //    ofPoint loc = ofPoint(tuioCursor.getX()*ofGetWidth(),tuioCursor.getY()*ofGetHeight());
-    int cursorIndex = getTuioPointIndex(tuioCursor.getSessionId());
-    if (cursorIndex < 0)
-    {
-        return;
-    }
-    tuioPoints.at(cursorIndex).setLastLocation();
-    tuioPoints.at(cursorIndex).location.set(tuioCursor.getX(), tuioCursor.getY());
-}
-
-void ofApp::tuioRemoved(ofxTuioCursor &tuioCursor)
-{
-    int cursorIndex = getTuioPointIndex(tuioCursor.getSessionId());
-    if (cursorIndex >= 0)
-    {
-        tuioPoints.erase(tuioPoints.begin() + cursorIndex);
-    }
-}
-
-int ofApp::getTuioPointIndex(int sid)
-{
-    int cursorIndex = -1;
-    for (int i = 0; i < tuioPoints.size(); ++i)
-    {
-        if (tuioPoints[i].sid == sid)
-        {
-            cursorIndex = i;
-            break;
-        }
-    }
-    return cursorIndex;
 }
