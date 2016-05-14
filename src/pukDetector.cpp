@@ -32,6 +32,11 @@ void pukDetector::update()
     tuioClient.getMessage();
 }
 
+vector<pukDetector::puk> pukDetector::getPuks()
+{
+	return puks;
+}
+
 //--------------------------------------------------------------
 
 void pukDetector::tuioAdded(ofxTuioCursor &tuioCursor)
@@ -44,7 +49,6 @@ void pukDetector::tuioAdded(ofxTuioCursor &tuioCursor)
 
 void pukDetector::tuioUpdated(ofxTuioCursor &tuioCursor)
 {
-    //    ofPoint loc = ofPoint(tuioCursor.getX()*ofGetWidth(),tuioCursor.getY()*ofGetHeight());
     int cursorIndex = getTuioPointIndex(tuioCursor.getSessionId());
     if (cursorIndex < 0)
     {
